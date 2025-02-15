@@ -27,6 +27,7 @@ type Card = {
   content: React.ReactNode;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const CarouselContext = createContext<{
   onCardClose: (index: number) => void;
   currentIndex: number;
@@ -163,7 +164,7 @@ export const Card = ({
 }) => {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const { onCardClose, currentIndex } = useContext(CarouselContext);
+  const { onCardClose } = useContext(CarouselContext);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -180,6 +181,7 @@ export const Card = ({
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   useOutsideClick(containerRef, () => handleClose());
@@ -266,6 +268,17 @@ export const Card = ({
   );
 };
 
+type BlurImageProps = {
+  src: string;
+  alt: string;
+  fill?: boolean;
+  className?: string;
+  width?: number;
+  height?: number;
+  [key: string]: unknown;
+  blurDataURL?: string;
+};
+
 export const BlurImage = ({
   height,
   width,
@@ -273,7 +286,7 @@ export const BlurImage = ({
   className,
   alt,
   ...rest
-}: any) => {
+}: BlurImageProps) => {
   const [isLoading, setLoading] = useState(true);
   return (
     <img
